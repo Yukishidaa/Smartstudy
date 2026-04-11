@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <section>
+        <div id="vanta-canvas">
+            <div class="register-box">
+                <form action="">
+                    <h2>Регистрация</h2>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person"></ion-icon></span>
+                        <input type="text" required>
+                        <label>Имя</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                        <input type="email" required>
+                        <label>Почта</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                        <input type="password" required>
+                        <label>Пароль</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                        <input type="password" required>
+                        <label>Подтверждение пароля</label>
+                    </div>
+                    <button type="submit">Register</button>
+                    <div class="login-link">
+                        <p>Уже есть аккаунт? <a href="#">Авторизация</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script src="../../assets/js/three.r134.min.js"></script>
+    <script src="../../assets/js/vanta.fog.min.js"></script>
+
+    <script>
+        VANTA.FOG({
+        el: "#vanta-canvas",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        highlightColor: 0xf0b424,
+        midtoneColor: 0xd220011,
+        // midtoneColor: 0xd9054f,
+        lowlightColor: 0x001100,
+        // lowlightColor: 0x1de357,
+        baseColor: 0x050505,
+        // blurFactor: 0.90,
+        speed: 1.00
+        })
+    </script>
+</body>
+</html>
