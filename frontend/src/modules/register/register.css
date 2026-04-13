@@ -20,14 +20,41 @@ section {
     position: relative;
     width: 400px;
     height: 550px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 24px;
+    box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.37),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    overflow: hidden;
+}
+
+.register-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(105deg,
+            transparent 0%,
+            transparent 40%,
+            rgba(255, 255, 255, 0.08) 45%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.08) 55%,
+            transparent 60%,
+            transparent 100%);
+    transform: rotate(-30deg);
+    pointer-events: none;
 }
 
 h2 {
@@ -40,7 +67,12 @@ h2 {
     position: relative;
     width: 310px;
     margin: 30px 0;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    transition: border-color 0.3s ease;
+}
+
+.input-box:focus-within {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.9);
 }
 
 .input-box label {
@@ -49,7 +81,7 @@ h2 {
     left: 5px;
     transform: translateY(-50%);
     font-size: 1em;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.7);
     pointer-events: none;
     transition: .5s;
 }
@@ -57,6 +89,7 @@ h2 {
 .input-box input:focus~label,
 .input-box input:valid~label {
     top: -5px;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .input-box input {
@@ -70,40 +103,111 @@ h2 {
     padding: 0px 35px 0px 5px;
 }
 
+.input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
 .input-box .icon {
     position: absolute;
     right: 8px;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.7);
     font-size: 1.2em;
     line-height: 57px;
+    transition: color 0.3s ease;
+}
+
+.input-box:focus-within .icon {
+    color: rgba(255, 255, 255, 1);
 }
 
 button {
+    position: relative;
     width: 100%;
     height: 40px;
-    background: #fff;
-    border: none;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(240, 240, 240, 0.9) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 40px;
     outline: none;
     cursor: pointer;
     font-size: 1em;
     color: #000;
     font-weight: 500;
+    overflow: hidden;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.25),
+        0 0 20px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button .btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+button .btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 20%,
+            rgba(255, 255, 255, 0.8) 45%,
+            rgba(255, 255, 255, 1) 50%,
+            rgba(255, 255, 255, 0.8) 55%,
+            rgba(255, 255, 255, 0.3) 80%,
+            transparent 100%);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+button:hover .btn-shine {
+    animation: shine 0.75s ease-out;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 200%;
+    }
 }
 
 .login-link {
     font-size: .9em;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.8);
     text-align: center;
     margin: 25px 0 10px;
 }
 
 .login-link p a {
-    color:#fff;
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 .login-link p a:hover {
+    color: #fff;
     text-decoration: underline;
 }
