@@ -1,0 +1,10 @@
+.qwen/
+.cursorrules
+
+.venv/
+__pycache__/
+.python-version
+
+.env
+
+.vscode/
