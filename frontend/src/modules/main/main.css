@@ -7,6 +7,16 @@
     font-family: "Poppins", sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     color: #fff;
     overflow-x: hidden;
@@ -131,6 +141,16 @@ header {
 .hero-content {
     text-align: center;
     max-width: 800px;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero-content h1 {
@@ -146,6 +166,9 @@ header {
     color: rgba(255, 255, 255, 0.85);
     margin-bottom: 40px;
     line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out 0.6s forwards;
 }
 
 .hero-buttons {
@@ -153,6 +176,9 @@ header {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out 0.9s forwards;
 }
 
 /* ===== CTA BUTTONS (Liquid Style) ===== */
@@ -266,6 +292,14 @@ header {
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.glass-container.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .glass-container h2 {
@@ -297,7 +331,22 @@ header {
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
     transition: all 0.3s ease;
     cursor: default;
+    opacity: 0;
+    transform: translateY(30px);
 }
+
+.feature-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.feature-card:nth-child(1) { transition-delay: 0.1s; }
+.feature-card:nth-child(2) { transition-delay: 0.2s; }
+.feature-card:nth-child(3) { transition-delay: 0.3s; }
+.feature-card:nth-child(4) { transition-delay: 0.4s; }
+.feature-card:nth-child(5) { transition-delay: 0.5s; }
+.feature-card:nth-child(6) { transition-delay: 0.6s; }
 
 .feature-card:hover {
     transform: translateY(-5px);
@@ -333,6 +382,17 @@ header {
     padding: 80px 40px;
     position: relative;
     z-index: 1;
+}
+
+.about .glass-container {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.about .glass-container.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .about .glass-container p {
