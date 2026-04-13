@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
     <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../../assets/css/animated-bg.css">
 </head>
 <body>
+    <div class="animated-bg">
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
     <section>
-        <div id="vanta-canvas">
-            <div class="login-box">
+        <div class="login-box">
                 <form action="">
                     <h2>Авторизация</h2>
                     <div class="input-box">
@@ -36,27 +48,5 @@
     </section>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    
-    <script src="../../assets/js/three.r134.min.js"></script>
-    <script src="../../assets/js/vanta.fog.min.js"></script>
-    
-    <script>
-        VANTA.FOG({
-        el: "#vanta-canvas",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        highlightColor: 0xf0b424,
-        midtoneColor: 0xd220011,
-        // midtoneColor: 0xd9054f,
-        lowlightColor: 0x001100,
-        // lowlightColor: 0x1de357,
-        baseColor: 0x050505,
-        // blurFactor: 0.90,
-        speed: 1.00
-        })
-    </script>
 </body>
 </html>

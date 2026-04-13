@@ -13,16 +13,6 @@ section {
     align-items: center;
     width: 100%;
     height: 100vh;
-    background-size: cover;
-    background-position: center;
-}
-
-#vanta-canvas {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
 }
 
