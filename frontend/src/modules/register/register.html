@@ -57,15 +57,6 @@
     </section>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    <script>
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const box = document.querySelector('.register-box');
-            if (box && scrolled < window.innerHeight) {
-                box.style.transform = `translateY(${scrolled * 0.15}px)`;
-            }
-        });
-    </script>
+    <script src="../../assets/js/page-parallax.js"></script>
 </body>
 </html>
