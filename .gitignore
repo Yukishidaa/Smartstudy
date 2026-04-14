@@ -1,5 +1,6 @@
 .qwen/
 .cursorrules
+node_modules/
 
 .venv/
 __pycache__/
