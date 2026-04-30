@@ -1,0 +1,277 @@
+/* ============================================================
+   TaskModal — модальное окно создания/редактирования задачи
+   ============================================================ */
+
+/* Затемнение фона */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Само окно */
+.task-modal {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.10) 0%,
+        rgba(255,255,255,0.05) 50%,
+        rgba(255,255,255,0.03) 100%
+    );
+    backdrop-filter: blur(50px) saturate(180%);
+    -webkit-backdrop-filter: blur(50px) saturate(180%);
+    box-shadow:
+        0 24px 60px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Светлая тема */
+.task-modal.light {
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.85) 0%,
+        rgba(255,255,255,0.70) 50%,
+        rgba(255,255,255,0.60) 100%
+    );
+    border-color: rgba(0,0,0,0.07);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+/* ---- Заголовок ---- */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.task-modal.light .modal-header {
+    border-bottom-color: rgba(0,0,0,0.06);
+}
+
+.modal-title {
+    font-size: 1.05em;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+}
+
+.task-modal.light .modal-title {
+    color: rgba(20,20,20,0.9);
+}
+
+.modal-close {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    transition: background 0.2s, color 0.2s;
+    font-family: inherit;
+}
+
+.task-modal.light .modal-close {
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.08);
+    color: rgba(40,40,40,0.5);
+}
+
+.modal-close:hover {
+    background: rgba(210,32,17,0.18);
+    color: rgba(210,32,17,0.9);
+    border-color: rgba(210,32,17,0.25);
+}
+
+/* ---- Тело ---- */
+.modal-body {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    max-height: 70vh;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.12) transparent;
+}
+
+/* ---- Группа поля ---- */
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field-label {
+    font-size: 0.78em;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.task-modal.light .field-label {
+    color: rgba(40,40,40,0.5);
+}
+
+.field-required {
+    color: rgba(210,32,17,0.75);
+    margin-left: 2px;
+}
+
+/* Общий стиль input */
+.field-input,
+.field-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 11px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.9);
+    font-size: 0.88em;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    resize: none;
+}
+
+.task-modal.light .field-input,
+.task-modal.light .field-textarea {
+    border-color: rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.72);
+    color: rgba(20,20,20,0.9);
+}
+
+.field-input::placeholder,
+.field-textarea::placeholder {
+    color: rgba(255,255,255,0.28);
+}
+
+.task-modal.light .field-input::placeholder,
+.task-modal.light .field-textarea::placeholder {
+    color: rgba(40,40,40,0.35);
+}
+
+.field-input:focus,
+.field-textarea:focus {
+    border-color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.09);
+}
+
+.task-modal.light .field-input:focus,
+.task-modal.light .field-textarea:focus {
+    border-color: rgba(0,0,0,0.22);
+    background: rgba(255,255,255,0.9);
+}
+
+.field-input.error,
+.field-textarea.error {
+    border-color: rgba(210,32,17,0.55);
+}
+
+/* datetime-local иконка */
+.field-input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    filter: invert(1) opacity(0.45);
+    cursor: pointer;
+}
+
+.task-modal.light .field-input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    filter: none;
+    opacity: 0.5;
+}
+
+/* Подсказка под полем */
+.field-footer {
+    display: flex;
+    min-height: 16px;
+}
+
+.field-error {
+    font-size: 0.74em;
+    color: rgba(210,32,17,0.85);
+}
+
+.field-hint {
+    font-size: 0.72em;
+    color: rgba(255,255,255,0.25);
+    margin-left: auto;
+}
+
+.task-modal.light .field-hint {
+    color: rgba(40,40,40,0.3);
+}
+
+/* ---- Подвал ---- */
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    padding: 16px 24px 22px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.task-modal.light .modal-footer {
+    border-top-color: rgba(0,0,0,0.06);
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 11px;
+    border-radius: 13px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.88em;
+    font-family: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.modal-btn:active { transform: scale(0.97); }
+
+.modal-btn.cancel {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.task-modal.light .modal-btn.cancel {
+    background: rgba(0,0,0,0.04);
+    color: rgba(40,40,40,0.55);
+    border-color: rgba(0,0,0,0.08);
+}
+
+.modal-btn.cancel:hover {
+    background: rgba(210,32,17,0.12);
+    color: rgba(210,32,17,0.85);
+    border-color: rgba(210,32,17,0.2);
+}
+
+.modal-btn.save {
+    background: rgba(240,180,36,0.18);
+    color: rgba(240,180,36,0.95);
+    border: 1px solid rgba(240,180,36,0.3);
+}
+
+.modal-btn.save:hover {
+    background: rgba(240,180,36,0.30);
+}

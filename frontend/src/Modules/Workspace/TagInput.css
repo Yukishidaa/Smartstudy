@@ -1,0 +1,157 @@
+/* ============================================================
+   TagInput — combobox с тегами
+   ============================================================ */
+
+.tag-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+/* Контейнер бабл + поле */
+.tag-bubbles-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 11px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    min-height: 42px;
+    cursor: text;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.tag-input-wrap.light .tag-bubbles-row {
+    border-color: rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.7);
+}
+
+.tag-bubbles-row:focus-within {
+    border-color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.09);
+}
+
+.tag-input-wrap.light .tag-bubbles-row:focus-within {
+    border-color: rgba(0,0,0,0.22);
+    background: rgba(255,255,255,0.88);
+}
+
+/* Бабл тега */
+.tag-bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px 3px 7px;
+    border-radius: 20px;
+    font-size: 0.76em;
+    font-weight: 500;
+    color: rgba(240,180,36,0.95);
+    background: rgba(240,180,36,0.12);
+    border: 1px solid rgba(240,180,36,0.25);
+    white-space: nowrap;
+}
+
+/* Кнопка удаления тега */
+.tag-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(240,180,36,0.65);
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-left: 2px;
+    transition: color 0.15s;
+    font-family: inherit;
+}
+
+.tag-remove:hover {
+    color: rgba(210,32,17,0.85);
+}
+
+/* Поле ввода */
+.tag-text-input {
+    flex: 1;
+    min-width: 100px;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 0.85em;
+    font-family: inherit;
+    color: rgba(255,255,255,0.88);
+}
+
+.tag-input-wrap.light .tag-text-input {
+    color: rgba(20,20,20,0.9);
+}
+
+.tag-text-input::placeholder {
+    color: rgba(255,255,255,0.28);
+}
+
+.tag-input-wrap.light .tag-text-input::placeholder {
+    color: rgba(40,40,40,0.35);
+}
+
+/* Выпадающий список */
+.tag-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 200;
+    list-style: none;
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(20,20,20,0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.tag-input-wrap.light .tag-dropdown {
+    background: rgba(255,255,255,0.92);
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.tag-option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.83em;
+    color: rgba(255,255,255,0.75);
+    transition: background 0.15s, color 0.15s;
+}
+
+.tag-input-wrap.light .tag-option {
+    color: rgba(30,30,30,0.8);
+}
+
+.tag-option:hover {
+    background: rgba(255,255,255,0.09);
+    color: #fff;
+}
+
+.tag-input-wrap.light .tag-option:hover {
+    background: rgba(0,0,0,0.06);
+    color: rgba(10,10,10,1);
+}
+
+/* Вариант "Создать новый тег" */
+.tag-option-new {
+    color: rgba(240,180,36,0.8);
+    font-weight: 500;
+}
+
+.tag-option-new:hover {
+    background: rgba(240,180,36,0.1);
+    color: rgba(240,180,36,1);
+}

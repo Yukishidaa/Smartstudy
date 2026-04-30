@@ -1,0 +1,464 @@
+/* ============================================================
+   TodoList — боковая панель задач (glassmorphism)
+   ============================================================ */
+
+.todo-sidebar {
+    width: 340px;
+    min-width: 320px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 28px 18px 20px;
+
+    /* Glassmorphism тёмная тема */
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.08) 0%,
+        rgba(255,255,255,0.04) 50%,
+        rgba(255,255,255,0.02) 100%
+    );
+    backdrop-filter: blur(36px) saturate(160%);
+    -webkit-backdrop-filter: blur(36px) saturate(160%);
+    border-right: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 0 24px rgba(0,0,0,0.18);
+}
+
+/* Светлая тема */
+.todo-sidebar.light {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.72) 0%,
+        rgba(255,255,255,0.52) 50%,
+        rgba(255,255,255,0.42) 100%
+    );
+    backdrop-filter: blur(36px) saturate(140%);
+    -webkit-backdrop-filter: blur(36px) saturate(140%);
+    border-right: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 2px 0 18px rgba(0,0,0,0.05);
+}
+
+/* ---- Заголовок ---- */
+.todo-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.todo-title {
+    font-size: 1.05em;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    flex: 1;
+}
+
+.todo-sidebar.light .todo-title {
+    color: rgba(25,25,25,0.92);
+}
+
+.todo-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Бейдж долгов */
+.debt-badge {
+    background: rgba(210,32,17,0.65);
+    color: #fff;
+    font-size: 0.70em;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Кнопка открыть чат на весь экран */
+.todo-chat-btn {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.45);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    transition: background 0.2s, color 0.2s;
+    font-family: inherit;
+}
+
+.todo-sidebar.light .todo-chat-btn {
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.08);
+    color: rgba(40,40,40,0.4);
+}
+
+.todo-chat-btn:hover {
+    background: rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.9);
+}
+
+/* ---- Прогресс ---- */
+.progress-wrap { margin-bottom: 14px; }
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 6px;
+}
+
+.todo-sidebar.light .progress-info { color: rgba(40,40,40,0.55); }
+
+.progress-bar-bg {
+    height: 5px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.12);
+    overflow: hidden;
+}
+
+.todo-sidebar.light .progress-bar-bg { background: rgba(0,0,0,0.1); }
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, rgba(240,180,36,0.9), rgba(240,180,36,0.55));
+    min-width: 4px;
+}
+
+/* ---- Фильтры ---- */
+.todo-filters {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.filter-btn {
+    flex: 1;
+    padding: 6px 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.5);
+    font-size: 0.72em;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.todo-sidebar.light .filter-btn {
+    border-color: rgba(0,0,0,0.08);
+    background: rgba(0,0,0,0.03);
+    color: rgba(40,40,40,0.55);
+}
+
+.filter-btn:hover {
+    background: rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.8);
+}
+
+.todo-sidebar.light .filter-btn:hover {
+    background: rgba(0,0,0,0.07);
+    color: rgba(20,20,20,0.85);
+}
+
+.filter-btn.active {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    border-color: rgba(255,255,255,0.22);
+}
+
+.todo-sidebar.light .filter-btn.active {
+    background: rgba(0,0,0,0.10);
+    color: rgba(20,20,20,1);
+    border-color: rgba(0,0,0,0.15);
+}
+
+/* ---- Подсказка про drag-and-drop ---- */
+.todo-dnd-hint {
+    font-size: 0.71em;
+    color: rgba(255,255,255,0.32);
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.10);
+    border-radius: 10px;
+    padding: 7px 10px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.todo-sidebar.light .todo-dnd-hint {
+    color: rgba(40,40,40,0.4);
+    background: rgba(0,0,0,0.025);
+    border-color: rgba(0,0,0,0.08);
+}
+
+/* Drag-handle на карточке задачи */
+.task-drag-handle {
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.25);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+    transition: color 0.18s;
+}
+
+.task-drag-handle:active { cursor: grabbing; }
+
+.task-item:hover .task-drag-handle { color: rgba(255,255,255,0.55); }
+
+.todo-sidebar.light .task-drag-handle { color: rgba(40,40,40,0.25); }
+.todo-sidebar.light .task-item:hover .task-drag-handle { color: rgba(40,40,40,0.55); }
+
+/* Курсор «pointer» для всей карточки (открыть детали) */
+.task-item { cursor: pointer; }
+
+/* ---- Список задач ---- */
+.task-list {
+    flex: 1;
+    overflow-y: auto;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+
+.todo-sidebar.light .task-list {
+    scrollbar-color: rgba(0,0,0,0.12) transparent;
+}
+
+/* ---- Карточка задачи ---- */
+.task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.2s;
+}
+
+.todo-sidebar.light .task-item {
+    background: rgba(255,255,255,0.55);
+    border-color: rgba(0,0,0,0.06);
+}
+
+.task-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.todo-sidebar.light .task-item:hover {
+    background: rgba(255,255,255,0.75);
+}
+
+/* Выполненная */
+.task-item.done { opacity: 0.55; }
+
+/* Просроченная */
+.task-item.overdue {
+    border-color: rgba(210,32,17,0.45);
+    background: rgba(210,32,17,0.07);
+}
+
+/* Чекбокс */
+.task-check {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    margin-top: 1px;
+    color: #fff;
+    font-family: inherit;
+}
+
+.todo-sidebar.light .task-check {
+    border-color: rgba(0,0,0,0.2);
+    background: transparent;
+    color: rgba(20,20,20,0.9);
+}
+
+.task-check.checked {
+    background: rgba(240,180,36,0.7);
+    border-color: rgba(240,180,36,0.9);
+}
+
+.task-check:hover { border-color: rgba(255,255,255,0.6); }
+.todo-sidebar.light .task-check:hover { border-color: rgba(0,0,0,0.4); }
+
+/* Тело задачи */
+.task-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.task-title-text {
+    font-size: 0.87em;
+    font-weight: 500;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.todo-sidebar.light .task-title-text { color: rgba(20,20,20,0.9); }
+
+.task-item.done .task-title-text { text-decoration: line-through; }
+
+.task-desc {
+    font-size: 0.76em;
+    color: rgba(255,255,255,0.42);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.todo-sidebar.light .task-desc { color: rgba(40,40,40,0.5); }
+
+/* Мета-инфо */
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.task-tag {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.68em;
+    color: rgba(240,180,36,0.8);
+    background: rgba(240,180,36,0.10);
+    padding: 2px 7px;
+    border-radius: 20px;
+    border: 1px solid rgba(240,180,36,0.2);
+}
+
+.task-deadline {
+    font-size: 0.68em;
+    color: rgba(255,255,255,0.35);
+}
+
+.todo-sidebar.light .task-deadline { color: rgba(40,40,40,0.45); }
+
+.task-deadline.late {
+    color: rgba(210,32,17,0.85);
+    font-weight: 600;
+}
+
+/* ---- Кнопки действий задачи ---- */
+.task-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.task-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, color 0.18s;
+    font-family: inherit;
+}
+
+.task-action-btn.edit {
+    color: rgba(255,255,255,0.25);
+}
+
+.todo-sidebar.light .task-action-btn.edit { color: rgba(40,40,40,0.3); }
+
+.task-action-btn.edit:hover {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85);
+}
+
+.todo-sidebar.light .task-action-btn.edit:hover {
+    background: rgba(0,0,0,0.07);
+    color: rgba(20,20,20,0.8);
+}
+
+.task-action-btn.delete { color: rgba(255,255,255,0.18); }
+
+.todo-sidebar.light .task-action-btn.delete { color: rgba(40,40,40,0.2); }
+
+.task-action-btn.delete:hover {
+    background: rgba(210,32,17,0.14);
+    color: rgba(210,32,17,0.85);
+}
+
+/* Пустое состояние */
+.task-empty {
+    text-align: center;
+    color: rgba(255,255,255,0.28);
+    font-size: 0.85em;
+    padding: 30px 0;
+    list-style: none;
+}
+
+.todo-sidebar.light .task-empty { color: rgba(40,40,40,0.32); }
+
+/* ---- Блок добавления ---- */
+.todo-add-section { margin-top: 12px; }
+
+.add-task-btn {
+    width: 100%;
+    padding: 11px;
+    border-radius: 14px;
+    border: 1.5px dashed rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    font-size: 0.87em;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.todo-sidebar.light .add-task-btn {
+    border-color: rgba(0,0,0,0.14);
+    background: rgba(0,0,0,0.02);
+    color: rgba(40,40,40,0.55);
+}
+
+.add-task-btn:hover {
+    background: rgba(255,255,255,0.09);
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.35);
+}
+
+.todo-sidebar.light .add-task-btn:hover {
+    background: rgba(0,0,0,0.06);
+    color: rgba(20,20,20,0.85);
+    border-color: rgba(0,0,0,0.25);
+}
