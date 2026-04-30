@@ -1,7 +1,11 @@
 .qwen/
+.claude/
+.claudeignore
+doc.txt
+promt.txt
 .cursorrules
 node_modules/
-
+dist/
 .venv/
 __pycache__/
 .python-version
