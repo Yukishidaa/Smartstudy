@@ -1,0 +1,34 @@
+FIELD DEFINITIONS FOR LEARNING PROFILE PARAMETERS
+
+     abstraction_level
+        0.0 (Concrete): Prefers literal facts, real-world data, and physical examples.
+        1.0 (Abstract): Prefers theories, patterns, metaphors, and conceptual frameworks.
+        Adaptive Action: Adjusts complexity of language and use of imagery.
+     granularity
+        0.0 (Summarized): Prefers high-level overviews, bullet points, and "big picture" summaries.
+        1.0 (Detailed): Prefers deep-dives, exhaustive documentation, and granular sub-steps.
+        Adaptive Action: Adjusts the length and density of information blocks.
+     social_dependency
+        0.0 (Solitary): Prefers independent study, asynchronous tasks, and quiet environments.
+        1.0 (Collaborative): Prefers peer discussions, group work, and social learning loops.
+        Adaptive Action: Determines if the system suggests "Group Mode" or "Solo Mode."
+     feedback_frequency
+        0.0 (Delayed): Prefers milestone-based feedback (e.g., end of chapter).
+        1.0 (Immediate): Prefers real-time validation (e.g., instant "Correct!" pop-ups).
+        Adaptive Action: Controls the frequency of automated notifications/check-ins.
+     structure_preference
+        0.0 (Exploratory): Prefers non-linear paths, discovery-based learning, and sandbox environments.
+        1.0 (Linear): Prefers strict sequences, "Next" buttons, and a predefined curriculum.
+        Adaptive Action: Determines if the UI hides or reveals upcoming modules.
+     ambiguity_tolerance
+        0.0 (Certainty-seeking): Needs clear rules, precise rubrics, and "right/wrong" answers.
+        1.0 (Risk-taking): Thrives in open-ended prompts, experimentation, and trial-and-error.
+        Adaptive Action: Adjusts the strictness of grading and the clarity of instructions.
+     motivation_type
+        0.0 (Process-oriented): Motivated by mastery, curiosity, and the act of learning itself.
+        1.0 (Outcome-oriented): Motivated by badges, certificates, grades, and completion status.
+        Adaptive Action: Adjusts the "Reward System" (e.g., showing progress vs. showing trophies).
+     logic_orientation
+        0.0 (Inductive): Prefers seeing many examples first, then deriving the rule.
+        1.0 (Deductive): Prefers learning the rule/formula first, then applying it to examples.
+        Adaptive Action: Determines the pedagogical order of a lesson (Theory -> Practice vs. Practice -> Theory).
