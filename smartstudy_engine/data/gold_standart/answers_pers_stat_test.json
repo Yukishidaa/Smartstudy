@@ -28,11 +28,7 @@
       {
         "id": 2,
         "dimension": "abstraction_level",
-        "text": "In a lecture, you find yourself more engaged by:",
-        "options": [
-          { "text": "Real-world case studies and historical data.", "value": 0.0 },
-          { "text": "Conceptual models and metaphorical frameworks.", "value": 1.0 }
-        ]
+        "answer_value": 1.0
       }
     ]
   }
