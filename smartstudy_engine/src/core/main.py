@@ -33,7 +33,7 @@ def load_input_file(file_path: str) -> Dict[str, Any]:
     return data
 
 
-INPUT_FILE = "input.json"
+INPUT_FILE = "../data/INPUT.json"
 
 def main():
     """
