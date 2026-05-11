@@ -1,0 +1,16 @@
+name: SmartStudy
+services:
+  # db:    
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend:/SmartStudy
+      - /SmartStudy/node_modules
+    environment:
+      - NODE_ENV=development
+    # depends_on:
+    #   - db
