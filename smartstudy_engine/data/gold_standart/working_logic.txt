@@ -1,0 +1,18 @@
+Execution Sequence (Psycological profile testing):
+1. Initialization [Stage: init_pers_stat_test] (Source: Backend)
+    Action: The Backend triggers the module by sending an initialization command.
+    Payload: Contains static_context (User ID and current/null learning profile) and a dynamic_context command (init_pers_stat_test).
+    Logic: Sets the baseline for the session.
+2. Question Generation [Stage: questions_pers_stat_test] (Source: Logic Engine)
+    Action: The Logic Engine receives the init command.
+    Logic: The Engine parses the command and locates/generates a set of assessment questions tailored to the required metrics (e.g., abstraction level, granularity, etc.).
+    Output: A structured set of questions sent to the backend in dynamic_context section.
+3. Data Collection [Stage: answers_pers_stat_test] (Source: Backend)
+    Action: The User interacts with the questions; the Backend captures these responses.
+    Payload: The Backend sends the dynamic_context containing the user's specific answers (answers_pers_stat_test) back to the Logic Engine.
+    Logic: Transfers the raw user input into the dynamic_context as described in "gold_standart".
+4. Profile Calculation [Stage: result_pers_stat_test] (Source: Logic Engine)
+    Action: The Logic Engine processes the captured answers.
+    Logic: The Engine performs the mathematical/logical computation to transform raw answers into standardized scores (0.0 - 1.0) for each learning profile attribute.
+    Output: The Engine returns the final dynamic_context containing the updated learning_profile values.
+    
