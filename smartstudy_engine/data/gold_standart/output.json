@@ -1,0 +1,35 @@
+{
+  "static_context": {
+    "user_identity": {
+      "user_id": "0000"
+    },
+    "historical_data": {
+      "engagement_score": 0.0,
+      "learning_profile": {
+        "abstraction_level": null,
+        "granularity": null,
+        "social_dependency": null,
+        "feedback_frequency": null,
+        "structure_preference": null,
+        "ambiguity_tolerance": null,
+        "motivation_type": null,
+        "logic_orientation": null
+      }
+    }
+  },
+  "dynamic_context": {
+    "module_command": "result_pers_stat_test",
+    "pers_stat_test_results": {
+      "learning_profile": {
+          "abstraction_level": 0.5,
+          "granularity": 0.5,
+          "social_dependency": 0.5,
+          "feedback_frequency": 0.5,
+          "structure_preference": 0.5,
+          "ambiguity_tolerance": 0.5,
+          "motivation_type": 0.5,
+          "logic_orientation": 0.5
+        }
+     }
+  }
+}
