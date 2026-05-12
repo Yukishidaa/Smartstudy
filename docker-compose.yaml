@@ -1,16 +1,42 @@
 name: SmartStudy
 services:
-  # db:    
+
+  db:
+    image: postgres:18-alpine
+    container_name: smartstudy_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/db/schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql
+    networks:
+      - smartstudy_network
+
   frontend:
     build:
       context: .
       dockerfile: docker/frontend.Dockerfile
+    container_name: smartstudy_frontend
     ports:
       - "3001:3001"
     volumes:
       - ./frontend:/SmartStudy
       - /SmartStudy/node_modules
     environment:
-      - NODE_ENV=development
-    # depends_on:
-    #   - db
+      - NODE_ENV=${NODE_ENV}
+    networks:
+      - smartstudy_network
+    depends_on:
+      - db
+
+networks:
+  smartstudy_network:
+    driver: bridge
+
+volumes:
+  pgdata:
