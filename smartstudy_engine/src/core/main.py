@@ -6,7 +6,7 @@ import os
 import json
 from typing import Dict, Any
 from .parse import parse_learning_profile
-from .write_stage import process_questions
+from .write_stage import process_questions, process_answers, finalize_results
 
 
 def load_input_file(file_path: str) -> Dict[str, Any]:
@@ -16,19 +16,15 @@ def load_input_file(file_path: str) -> Dict[str, Any]:
     """
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Input file '{file_path}' not found.")
-
     if not os.path.isfile(file_path):
         raise ValueError(f"Path '{file_path}' is not a file.")
-
     with open(file_path, 'r', encoding='utf-8') as f:
         try:
             data = json.load(f)
         except json.JSONDecodeError as e:
             raise ValueError(f"Invalid JSON in '{file_path}': {e}")
-
     if not isinstance(data, dict):
         raise TypeError("Root of input.json must be a dictionary.")
-
     return data
 
 
@@ -42,17 +38,20 @@ def main():
         raw_data = load_input_file(INPUT_FILE)
         parsed_data = parse_learning_profile(raw_data)
         module_cmd = parsed_data.get("dynamic_context", {}).get("module_command", "")
-
         if module_cmd == "init_pers_stat_test":
             print(json.dumps(parsed_data, indent=2))
         elif module_cmd == "questions_pers_stat_test":
-
             final_data = process_questions(parsed_data)
+            print(json.dumps(final_data, indent=2))
+        elif module_cmd == "answers_pers_stat_test":
+            final_data = process_answers(parsed_data)
+            print(json.dumps(final_data, indent=2))
+        elif module_cmd == "result_pers_stat_test":
+            final_data = finalize_results(parsed_data)
             print(json.dumps(final_data, indent=2))
         else:
             print("Module command not recognized or error occurred.")
             print(json.dumps(parsed_data, indent=2))
-
     except Exception as e:
         print(f"Error during processing: {e}")
         try:
