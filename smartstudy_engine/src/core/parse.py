@@ -13,7 +13,6 @@ def parse_learning_profile(data: Dict[str, Any]) -> Dict[str, Any]:
     On error, modifies dynamic_context.module_command to ERROR___[original].
     """
     try:
-        # Validate structure
         if not isinstance(data, dict):
             raise TypeError("Root data must be a dictionary.")
         if "static_context" not in data or not isinstance(data["static_context"], dict):
@@ -30,7 +29,6 @@ def parse_learning_profile(data: Dict[str, Any]) -> Dict[str, Any]:
             elif not isinstance(value, (int, float)):
                 raise TypeError(f"Invalid type for key '{key}': expected number, got {type(value).__name__}")
 
-        # Validate dynamic context
         if "dynamic_context" not in data or not isinstance(data["dynamic_context"], dict):
             raise KeyError("Missing or invalid dynamic_context")
         if "module_command" not in data["dynamic_context"]:
@@ -39,7 +37,6 @@ def parse_learning_profile(data: Dict[str, Any]) -> Dict[str, Any]:
         return data
 
     except (TypeError, KeyError) as e:
-        # Modify module_command on error
         if "dynamic_context" in data and isinstance(data["dynamic_context"], dict):
             original_cmd = data["dynamic_context"].get("module_command", "unknown")
             data["dynamic_context"]["module_command"] = f"ERROR___{original_cmd}"
