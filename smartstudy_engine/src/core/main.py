@@ -5,8 +5,8 @@
 import os
 import json
 from typing import Dict, Any
-from .parse import parse_learning_profile
-from .write_stage import process_questions, process_answers, finalize_results
+from parse import parse_learning_profile
+from write_stage import process_questions, process_answers, finalize_results
 
 
 def load_input_file(file_path: str) -> Dict[str, Any]:
