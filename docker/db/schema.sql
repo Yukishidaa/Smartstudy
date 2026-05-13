@@ -20,6 +20,27 @@ CREATE TABLE IF NOT EXISTS tasks (
     author_user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Индексы
+-- Таблица calendar_events
+CREATE TABLE IF NOT EXISTS calendar_events (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(120) NOT NULL CHECK (LENGTH(title) >= 1),
+    description TEXT,
+    location VARCHAR(255),
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    task_id INTEGER NULL REFERENCES tasks(id) ON DELETE SET NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT check_end_time_after_start CHECK (end_time > start_time),
+    CONSTRAINT check_min_duration CHECK (EXTRACT(EPOCH FROM (end_time - start_time)) >= 300)
+);
+
+-- Индексы задач
 CREATE INDEX IF NOT EXISTS idx_tasks_author_user_id ON tasks(author_user_id);
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+
+-- Индексы календаря
+CREATE INDEX IF NOT EXISTS idx_calendar_events_user_id ON calendar_events(user_id);
+CREATE INDEX IF NOT EXISTS idx_calendar_events_start_time ON calendar_events(start_time);
+CREATE INDEX IF NOT EXISTS idx_calendar_events_user_start ON calendar_events(user_id, start_time);
