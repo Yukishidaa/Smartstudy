@@ -1,4 +1,4 @@
-﻿from fastapi import FastAPI, HTTPException, Query
+﻿from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
@@ -6,8 +6,8 @@ import asyncpg
 import os
 
 
-# Создание приложения
-app = FastAPI(title="Smart Study API", version="1.0.0")
+# Создание роутера
+router = APIRouter()
 
 
 # Подключение к БД
@@ -49,7 +49,7 @@ class TaskUpdate(BaseModel):
 
 
 # Пользователи
-@app.post("/users")
+@router.post("/users")
 async def create_user(user: UserCreate):
     conn = await get_db()
     try:
@@ -66,7 +66,7 @@ async def create_user(user: UserCreate):
         await conn.close()
 
 
-@app.patch("/users/{user_id}")
+@router.patch("/users/{user_id}")
 async def update_user(user_id: int, user: UserUpdate):
     updates = []
     values = []
@@ -102,7 +102,7 @@ async def update_user(user_id: int, user: UserUpdate):
         await conn.close()
 
 
-@app.delete("/users/{user_id}")
+@router.delete("/users/{user_id}")
 async def delete_user(user_id: int):
     conn = await get_db()
     try:
@@ -115,7 +115,7 @@ async def delete_user(user_id: int):
 
 
 # Задачи
-@app.post("/tasks")
+@router.post("/tasks")
 async def create_task(task: TaskCreate):
     conn = await get_db()
     try:
@@ -138,7 +138,7 @@ async def create_task(task: TaskCreate):
         await conn.close()
 
 
-@app.patch("/tasks/{task_id}")
+@router.patch("/tasks/{task_id}")
 async def update_task(task_id: int, task: TaskUpdate):
     updates = []
     values = []
@@ -179,7 +179,7 @@ async def update_task(task_id: int, task: TaskUpdate):
         await conn.close()
 
 
-@app.delete("/tasks/{task_id}")
+@router.delete("/tasks/{task_id}")
 async def delete_task(task_id: int):
     conn = await get_db()
     try:
@@ -191,7 +191,7 @@ async def delete_task(task_id: int):
         await conn.close()
 
 
-@app.get("/tasks/")
+@router.get("/tasks/")
 async def get_tasks(
     user_id: int = Query(...),
     limit: int = Query(10, ge=1, le=100),
@@ -225,7 +225,7 @@ async def get_tasks(
         await conn.close()
 
 
-@app.get("/tasks/{task_id}")
+@router.get("/tasks/{task_id}")
 async def get_task(task_id: int):
     conn = await get_db()
     try:
@@ -242,8 +242,3 @@ async def get_task(task_id: int):
         return dict(row)
     finally:
         await conn.close()
-
-
-@app.get("/")
-async def root():
-    return {"message": "Smart Study API is running", "docs": "/docs"}
