@@ -1,39 +1,22 @@
-﻿from fastapi import APIRouter, HTTPException, Query, Request, Depends
+﻿from fastapi import APIRouter, HTTPException, Query, Request
 from pydantic import BaseModel
-from datetime import datetime
-from typing import Optional, List
 
-# Временно без JWT, current_user пока не используем
-# Позже добавишь: from auth import get_current_user
 
 router = APIRouter(prefix="/tags", tags=["tags"])
 
 
-# Модели данных
 class TagCreate(BaseModel):
     name: str
 
-
-class TagResponse(BaseModel):
-    id: int
-    name: str
-    created_at: datetime
-
-
-# ===== ЭНДПОИНТЫ =====
 
 # Создать тег
 @router.post("/", status_code=201)
 async def create_tag(
     tag: TagCreate,
     request: Request,
-    # current_user: int = Depends(get_current_user),  # добавить после JWT
+    user_id: int = Query(...),  # ← фронтенд передаёт user_id
 ):
-    # user_id = current_user  # временно замени на 1 или передавай из запроса
-    user_id = 1
-    
     async with request.app.state.pool.acquire() as conn:
-        # Проверка на дубликат
         existing = await conn.fetchval(
             "SELECT id FROM tags WHERE user_id = $1 AND name = $2",
             user_id, tag.name
@@ -56,10 +39,8 @@ async def create_tag(
 @router.get("/")
 async def get_tags(
     request: Request,
-    # current_user: int = Depends(get_current_user),
+    user_id: int = Query(...),  # ← фронтенд передаёт user_id
 ):
-    user_id = 1
-    
     async with request.app.state.pool.acquire() as conn:
         rows = await conn.fetch(
             """
@@ -78,12 +59,9 @@ async def get_tags(
 async def delete_tag(
     tag_id: int,
     request: Request,
-    # current_user: int = Depends(get_current_user),
+    user_id: int = Query(...),  # ← фронтенд передаёт user_id
 ):
-    user_id = 1
-    
     async with request.app.state.pool.acquire() as conn:
-        # Проверка, что тег принадлежит пользователю
         tag_owner = await conn.fetchval(
             "SELECT user_id FROM tags WHERE id = $1", tag_id
         )
@@ -104,12 +82,9 @@ async def add_tag_to_task(
     task_id: int,
     request: Request,
     tag_id: int = Query(...),
-    # current_user: int = Depends(get_current_user),
+    user_id: int = Query(...),  # ← фронтенд передаёт user_id
 ):
-    user_id = 1
-    
     async with request.app.state.pool.acquire() as conn:
-        # Проверка: задача принадлежит пользователю
         task_owner = await conn.fetchval(
             "SELECT author_user_id FROM tasks WHERE id = $1", task_id
         )
@@ -118,7 +93,6 @@ async def add_tag_to_task(
         if task_owner != user_id:
             raise HTTPException(403, "You can only add tags to your own tasks")
         
-        # Проверка: тег принадлежит пользователю
         tag_owner = await conn.fetchval(
             "SELECT user_id FROM tags WHERE id = $1", tag_id
         )
@@ -127,7 +101,6 @@ async def add_tag_to_task(
         if tag_owner != user_id:
             raise HTTPException(403, "You can only use your own tags")
         
-        # Проверка: не добавлять уже существующую связь
         existing = await conn.fetchval(
             "SELECT 1 FROM task_tags WHERE task_id = $1 AND tag_id = $2",
             task_id, tag_id
@@ -148,12 +121,9 @@ async def remove_tag_from_task(
     task_id: int,
     tag_id: int,
     request: Request,
-    # current_user: int = Depends(get_current_user),
+    user_id: int = Query(...),  # ← фронтенд передаёт user_id
 ):
-    user_id = 1
-    
     async with request.app.state.pool.acquire() as conn:
-        # Проверка: задача принадлежит пользователю
         task_owner = await conn.fetchval(
             "SELECT author_user_id FROM tasks WHERE id = $1", task_id
         )
@@ -176,12 +146,9 @@ async def remove_tag_from_task(
 async def get_task_tags(
     task_id: int,
     request: Request,
-    # current_user: int = Depends(get_current_user),
+    user_id: int = Query(...),  # ← фронтенд передаёт user_id
 ):
-    user_id = 1
-    
     async with request.app.state.pool.acquire() as conn:
-        # Проверка: задача принадлежит пользователю
         task_owner = await conn.fetchval(
             "SELECT author_user_id FROM tasks WHERE id = $1", task_id
         )
@@ -208,14 +175,11 @@ async def get_task_tags(
 async def get_tasks_by_tag(
     tag_id: int,
     request: Request,
+    user_id: int = Query(...),  # ← фронтенд передаёт user_id
     limit: int = Query(100, ge=1, le=500),
     offset: int = Query(0, ge=0),
-    # current_user: int = Depends(get_current_user),
 ):
-    user_id = 1
-    
     async with request.app.state.pool.acquire() as conn:
-        # Проверка: тег принадлежит пользователю
         tag_owner = await conn.fetchval(
             "SELECT user_id FROM tags WHERE id = $1", tag_id
         )
