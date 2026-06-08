@@ -11,6 +11,7 @@ from users_tasks import router as users_router
 from calendar_routes import router as calendar_router
 from stats import router as stats_router
 from tags import router as tags_router
+from gamification import router as gamification_router
 
 
 load_dotenv()
@@ -67,6 +68,7 @@ app.include_router(users_router)
 app.include_router(calendar_router)
 app.include_router(stats_router)
 app.include_router(tags_router)
+app.include_router(gamification_router)
 
 
 # ── Health check ──────────────────────────────────────────────────────────────

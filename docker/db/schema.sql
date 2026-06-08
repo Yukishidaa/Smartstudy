@@ -65,3 +65,8 @@ CREATE INDEX IF NOT EXISTS idx_calendar_events_user_start ON calendar_events(use
 CREATE INDEX IF NOT EXISTS idx_tags_user_id ON tags(user_id);
 CREATE INDEX IF NOT EXISTS idx_task_tags_task_id ON task_tags(task_id);
 CREATE INDEX IF NOT EXISTS idx_task_tags_tag_id ON task_tags(tag_id);
+
+-- Геймификация (Strike)
+ALTER TABLE users ADD COLUMN IF NOT EXISTS current_streak INTEGER DEFAULT 0;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS longest_streak INTEGER DEFAULT 0;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS last_activity_date DATE;

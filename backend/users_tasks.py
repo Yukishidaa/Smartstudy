@@ -4,6 +4,9 @@ from datetime import datetime
 from typing import Optional
 
 
+from gamification import update_streak
+
+
 # Создание роутера
 router = APIRouter()
 
@@ -130,9 +133,16 @@ async def create_task(task: TaskCreate, request: Request):
 
 
 @router.patch("/tasks/{task_id}")
-async def update_task(task_id: int, task: TaskUpdate, request: Request):
+async def update_task(
+    task_id: int,
+    task: TaskUpdate,
+    request: Request,
+):
     updates = []
     values = []
+
+    # Флаг, который запомнит, стала ли задача ТОЛЬКО ЧТО выполненной
+    became_completed = False
 
     if task.title is not None:
         updates.append(f"title = ${len(values)+1}")
@@ -145,6 +155,7 @@ async def update_task(task_id: int, task: TaskUpdate, request: Request):
         values.append(task.completed)
         if task.completed:
             updates.append("completed_at = NOW()")
+            became_completed = True  # запоминаем, что задача стала completed
         else:
             updates.append("completed_at = NULL")
     if task.deadline is not None:
@@ -166,6 +177,13 @@ async def update_task(task_id: int, task: TaskUpdate, request: Request):
         row = await conn.fetchrow(query, *values)
         if not row:
             raise HTTPException(404, "Task not found")
+
+        # ===== ОБНОВЛЕНИЕ STRIKE =====
+        # Если задача стала выполненной (и это не просто повторный PATCH)
+        if became_completed and task.completed is True:
+            from gamification import update_streak
+            await update_streak(row["author_user_id"], request)
+
         return dict(row)
 
 
