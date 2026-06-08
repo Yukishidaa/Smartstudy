@@ -6,10 +6,13 @@ from pydantic import BaseModel
 from passlib.context import CryptContext
 from dotenv import load_dotenv
 
-load_dotenv()
 
 from users_tasks import router as users_router
 from calendar_routes import router as calendar_router
+from stats import router as stats_router
+
+
+load_dotenv()
 
 
 app = FastAPI(title="Smart Study API", version="1.0.0")
@@ -61,6 +64,7 @@ async def shutdown():
 # ── Routers ───────────────────────────────────────────────────────────────────
 app.include_router(users_router)
 app.include_router(calendar_router)
+app.include_router(stats_router)
 
 
 # ── Health check ──────────────────────────────────────────────────────────────
