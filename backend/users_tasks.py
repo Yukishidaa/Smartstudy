@@ -194,18 +194,32 @@ async def get_tasks(
             ORDER BY created_at DESC
             LIMIT $2 OFFSET $3
             """,
-            user_id,
-            limit,
-            offset,
+            user_id, limit, offset,
         )
 
         total = await conn.fetchval(
-            "SELECT COUNT(*) FROM tasks WHERE author_user_id = $1",
-            user_id,
+            "SELECT COUNT(*) FROM tasks WHERE author_user_id = $1", user_id
         )
 
+        # Для каждой задачи получаем теги
+        tasks = []
+        for row in rows:
+            task = dict(row)
+            tags = await conn.fetch(
+                """
+                SELECT t.id, t.name
+                FROM tags t
+                JOIN task_tags tt ON t.id = tt.tag_id
+                WHERE tt.task_id = $1
+                ORDER BY t.name
+                """,
+                task["id"]
+            )
+            task["tags"] = [dict(tag) for tag in tags]
+            tasks.append(task)
+
         return {
-            "tasks": [dict(row) for row in rows],
+            "tasks": tasks,
             "total": total,
             "limit": limit,
             "offset": offset,
@@ -213,7 +227,11 @@ async def get_tasks(
 
 
 @router.get("/tasks/{task_id}")
-async def get_task(task_id: int, request: Request):
+async def get_task(
+    task_id: int,
+    request: Request,
+    # current_user: int = Depends(get_current_user),  # потом раскомментировать
+):
     async with request.app.state.pool.acquire() as conn:
         row = await conn.fetchrow(
             """
@@ -225,4 +243,24 @@ async def get_task(task_id: int, request: Request):
         )
         if not row:
             raise HTTPException(404, "Task not found")
-        return dict(row)
+
+        # Проверка: задача принадлежит пользователю (потом раскомментировать)
+        # if row["author_user_id"] != current_user:
+        #     raise HTTPException(403, "You can only view your own tasks")
+
+        task = dict(row)
+
+        # Получаем теги задачи
+        tags = await conn.fetch(
+            """
+            SELECT t.id, t.name
+            FROM tags t
+            JOIN task_tags tt ON t.id = tt.tag_id
+            WHERE tt.task_id = $1
+            ORDER BY t.name
+            """,
+            task_id
+        )
+        task["tags"] = [dict(tag) for tag in tags]
+
+        return task

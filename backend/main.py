@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from users_tasks import router as users_router
 from calendar_routes import router as calendar_router
 from stats import router as stats_router
+from tags import router as tags_router
 
 
 load_dotenv()
@@ -65,6 +66,7 @@ async def shutdown():
 app.include_router(users_router)
 app.include_router(calendar_router)
 app.include_router(stats_router)
+app.include_router(tags_router)
 
 
 # ── Health check ──────────────────────────────────────────────────────────────
